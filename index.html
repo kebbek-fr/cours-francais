@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le français avec Keb & Bek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --beige:       #F2EDE3;
+      --beige-clair: #FDF8F2;
+      --bleu-poudre: #B8C9E0;
+      --bleu-fonce:  #7A9BBF;
+      --vert:        #7FA86E;
+      --vert-clair:  #EAF3DE;
+      --vert-fonce:  #4A7A36;
+      --texte:       #2A2422;
+      --gris:        #8A8480;
+      --blanc:       #ffffff;
+      --ombre:       rgba(42, 36, 34, 0.10);
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--beige);
+      font-family: "Nunito", sans-serif;
+      color: var(--texte);
+      overflow-x: hidden;
+    }
+
+    /* ── FOND DÉCORATIF ── */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(184,201,224,0.18) 0%, transparent 70%),
+        radial-gradient(ellipse 60% 40% at 20% 100%, rgba(127,168,110,0.10) 0%, transparent 60%),
+        radial-gradient(ellipse 50% 35% at 85% 80%, rgba(184,201,224,0.10) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Petites étoiles décoratives */
+    body::after {
+      content: "✦  ✦  ✦";
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 10px;
+      letter-spacing: 18px;
+      color: var(--bleu-poudre);
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── MISE EN PAGE ── */
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 56px;
+      gap: 0;
+    }
+
+    /* ── BANDEAU HAUT ── */
+    .bandeau {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(11px, 1.2vw, 13px);
+      color: var(--bleu-fonce);
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: apparaitre 0.7s ease 0.1s forwards;
+    }
+
+    /* ── IMAGE TITRE FLOTTANTE ── */
+    .titre-image-wrap {
+      position: relative;
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: apparaitre 0.9s ease 0.3s forwards;
+    }
+
+    .titre-image {
+      width: clamp(220px, 38vw, 380px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 12px 32px rgba(42,36,34,0.18)) drop-shadow(0 4px 8px rgba(42,36,34,0.10));
+      animation: flotter 4s ease-in-out infinite;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.35s ease;
+      cursor: default;
+    }
+
+    .titre-image:hover {
+      transform: scale(1.06) translateY(-6px);
+      filter: drop-shadow(0 20px 48px rgba(42,36,34,0.22)) drop-shadow(0 6px 12px rgba(42,36,34,0.14));
+      animation-play-state: paused;
+    }
+
+    @keyframes flotter {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-10px); }
+    }
+
+    /* ── INVITE ── */
+    .invite {
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--gris);
+      text-align: center;
+      margin-top: 36px;
+      margin-bottom: 22px;
+      opacity: 0;
+      animation: apparaitre 0.6s ease 0.7s forwards;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .invite::before,
+    .invite::after {
+      content: "";
+      display: block;
+      width: 36px;
+      height: 1px;
+      background: var(--bleu-poudre);
+    }
+
+    /* ── GRILLE DE LANGUES ── */
+    .langues {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 14px;
+      max-width: 720px;
+      opacity: 0;
+      animation: apparaitre 0.7s ease 0.9s forwards;
+    }
+
+    .lang-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 7px;
+      padding: 16px 14px 14px;
+      background: var(--beige-clair);
+      border: 1.5px solid rgba(184,201,224,0.5);
+      border-radius: 16px;
+      cursor: pointer;
+      text-decoration: none;
+      color: var(--texte);
+      font-family: "Nunito", sans-serif;
+      min-width: 104px;
+      transition: border-color 0.18s, background 0.18s, transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s;
+      box-shadow: 0 2px 8px var(--ombre);
+    }
+
+    .lang-btn:hover {
+      border-color: var(--bleu-fonce);
+      background: #EEF4FB;
+      transform: translateY(-4px) scale(1.04);
+      box-shadow: 0 8px 24px rgba(122,155,191,0.22);
+    }
+
+    .lang-btn:active {
+      transform: translateY(-1px) scale(1.01);
+    }
+
+    .drapeau {
+      font-size: 28px;
+      line-height: 1;
+      display: block;
+    }
+
+    .lang-nom {
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--texte);
+      text-align: center;
+    }
+
+    .lang-natif {
+      font-size: 11px;
+      font-weight: 400;
+      color: var(--gris);
+      text-align: center;
+    }
+
+    /* Badge détectée */
+    .lang-btn.detectee {
+      border-color: var(--vert);
+      background: var(--vert-clair);
+      box-shadow: 0 2px 12px rgba(127,168,110,0.20);
+    }
+
+    .lang-btn.detectee .lang-nom::after {
+      content: " ✓";
+      color: var(--vert-fonce);
+      font-size: 11px;
+    }
+
+    /* ── PIED ── */
+    .pied {
+      margin-top: 48px;
+      font-size: 12px;
+      color: #bbb;
+      text-align: center;
+      opacity: 0;
+      animation: apparaitre 0.5s ease 1.2s forwards;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .pied-sep { color: #ddd; }
+
+    .pied a {
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .pied a:hover { color: var(--vert); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes apparaitre {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Respect du mouvement réduit */
+    @media (prefers-reduced-motion: reduce) {
+      .titre-image { animation: none; }
+      * { animation-duration: 0.01ms !important; }
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 480px) {
+      .lang-btn { min-width: calc(50% - 7px); }
+      .titre-image { width: clamp(200px, 72vw, 300px); }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <p class="bandeau">Cours de français interactif · Montréal, Québec</p>
+
+  <div class="titre-image-wrap">
+    <img
+      class="titre-image"
+      src="images/autocollant_titre_1_apprendre_le_francais.png"
+      alt="Le français avec Keb & Bek"
+      draggable="false"
+    >
+  </div>
+
+  <p class="invite">Choisissez votre langue &nbsp;·&nbsp; Choose your language</p>
+
+  <div class="langues" id="langues">
+
+    <a class="lang-btn" href="lecon_001/fr.html" onclick="choisir('fr')" id="btn-fr">
+      <span class="drapeau">🇫🇷</span>
+      <span class="lang-nom">Français</span>
+      <span class="lang-natif">français</span>
+    </a>
+
+    <a class="lang-btn" href="lecon_001/en.html" onclick="choisir('en')" id="btn-en">
+      <span class="drapeau">🇬🇧</span>
+      <span class="lang-nom">Anglais</span>
+      <span class="lang-natif">English</span>
+    </a>
+
+    <a class="lang-btn" href="lecon_001/es.html" onclick="choisir('es')" id="btn-es">
+      <span class="drapeau">🇪🇸</span>
+      <span class="lang-nom">Espagnol</span>
+      <span class="lang-natif">Español</span>
+    </a>
+
+    <a class="lang-btn" href="lecon_001/pt.html" onclick="choisir('pt')" id="btn-pt">
+      <span class="drapeau">🇧🇷</span>
+      <span class="lang-nom">Portugais</span>
+      <span class="lang-natif">Português</span>
+    </a>
+
+    <a class="lang-btn" href="lecon_001/zh.html" onclick="choisir('zh')" id="btn-zh">
+      <span class="drapeau">🇨🇳</span>
+      <span class="lang-nom">Chinois</span>
+      <span class="lang-natif">中文</span>
+    </a>
+
+    <a class="lang-btn" href="lecon_001/it.html" onclick="choisir('it')" id="btn-it">
+      <span class="drapeau">🇮🇹</span>
+      <span class="lang-nom">Italien</span>
+      <span class="lang-natif">Italiano</span>
+    </a>
+
+    <a class="lang-btn" href="lecon_001/tl.html" onclick="choisir('tl')" id="btn-tl">
+      <span class="drapeau">🇵🇭</span>
+      <span class="lang-nom">Tagalog</span>
+      <span class="lang-natif">Tagalog</span>
+    </a>
+
+    <a class="lang-btn" href="lecon_001/ca.html" onclick="choisir('ca')" id="btn-ca">
+      <span class="drapeau">🏴</span>
+      <span class="lang-nom">Catalan</span>
+      <span class="lang-natif">Català</span>
+    </a>
+
+  </div>
+
+  <div class="pied">
+    <span>Un projet de <strong>Keb &amp; Bek</strong></span>
+    <span class="pied-sep">·</span>
+    <span>Montréal, Québec</span>
+    <span class="pied-sep">·</span>
+    <a href="#">À propos</a>
+  </div>
+
+</div>
+
+<script>
+  const MAP_LANG = {
+    fr: ["fr", "fr-FR", "fr-CA", "fr-BE", "fr-CH"],
+    en: ["en", "en-US", "en-GB", "en-CA", "en-AU"],
+    es: ["es", "es-ES", "es-MX", "es-AR", "es-CO"],
+    pt: ["pt", "pt-BR", "pt-PT"],
+    zh: ["zh", "zh-CN", "zh-TW", "zh-HK"],
+    it: ["it", "it-IT"],
+    tl: ["tl", "fil"],
+    ca: ["ca"],
+  };
+
+  function detecterLangue() {
+    const nav = navigator.languages || [navigator.language];
+    for (const l of nav) {
+      const code = l.toLowerCase();
+      for (const [key, vals] of Object.entries(MAP_LANG)) {
+        if (vals.some(v => code.startsWith(v.toLowerCase()))) return key;
+      }
+    }
+    return null;
+  }
+
+  function choisir(code) {
+    localStorage.setItem("keb_bek_langue", code);
+  }
+
+  (function init() {
+    const deja   = localStorage.getItem("keb_bek_langue");
+    const detect = detecterLangue();
+    const cible  = deja || detect;
+    if (cible) {
+      const btn = document.getElementById("btn-" + cible);
+      if (btn) btn.classList.add("detectee");
+    }
+  })();
+</script>
+
+</body>
+</html>
