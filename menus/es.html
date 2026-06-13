@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lecciones — Le français avec Keb & Bek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400i&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --beige:       #F2EDE3;
+      --beige-clair: #FDF8F2;
+      --bleu-poudre: #B8C9E0;
+      --bleu-fonce:  #7A9BBF;
+      --vert:        #7FA86E;
+      --vert-clair:  #EAF3DE;
+      --vert-fonce:  #4A7A36;
+      --texte:       #2A2422;
+      --gris:        #8A8480;
+      --blanc:       #ffffff;
+      --ombre:       rgba(42, 36, 34, 0.10);
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--beige);
+      font-family: "Nunito", sans-serif;
+      color: var(--texte);
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 0%, rgba(184,201,224,0.15) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 40% at 15% 100%, rgba(127,168,110,0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 48px 24px 64px;
+    }
+
+    .titre-wrap {
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: apparaitre 0.9s ease 0.1s forwards;
+    }
+
+    .titre-image {
+      width: clamp(160px, 26vw, 240px);
+      height: auto;
+      display: block;
+      filter: drop-shadow(0 10px 28px rgba(42,36,34,0.16));
+      animation: flotter 4s ease-in-out infinite;
+    }
+
+    @keyframes flotter {
+      0%, 100% { transform: translateY(0px); }
+      50%       { transform: translateY(-8px); }
+    }
+
+    h1 {
+      font-family: "Patrick Hand", cursive;
+      font-weight: 400;
+      font-size: clamp(24px, 4vw, 34px);
+      color: var(--vert-fonce);
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: apparaitre 0.7s ease 0.3s forwards;
+    }
+
+    .sous-titre {
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--gris);
+      margin-bottom: 40px;
+      text-align: center;
+      opacity: 0;
+      animation: apparaitre 0.7s ease 0.4s forwards;
+    }
+
+    .groupe {
+      width: 100%;
+      max-width: 640px;
+      margin-bottom: 28px;
+      opacity: 0;
+      animation: apparaitre 0.8s ease 0.5s forwards;
+    }
+
+    .groupe-titre {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(15px, 1.8vw, 18px);
+      color: var(--bleu-fonce);
+      margin-bottom: 14px;
+      padding-left: 4px;
+    }
+
+    .grille-lecons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .lecon-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      width: 84px;
+      height: 84px;
+      background: var(--beige-clair);
+      border: 1.5px solid rgba(184,201,224,0.5);
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--texte);
+      font-family: "Nunito", sans-serif;
+      box-shadow: 0 2px 8px var(--ombre);
+      transition: border-color 0.18s, background 0.18s, transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.18s;
+    }
+
+    .lecon-btn:hover {
+      border-color: var(--vert);
+      background: var(--vert-clair);
+      transform: translateY(-4px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(127,168,110,0.22);
+    }
+
+    .lecon-num {
+      font-family: "Patrick Hand", cursive;
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--vert-fonce);
+    }
+
+    .lecon-label {
+      font-size: 10px;
+      color: var(--gris);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .lecon-btn.indisponible {
+      opacity: 0.35;
+      pointer-events: none;
+      border-style: dashed;
+    }
+
+    .retour {
+      margin-top: 28px;
+      font-size: 12px;
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.15s;
+      opacity: 0;
+      animation: apparaitre 0.5s ease 0.9s forwards;
+    }
+    .retour:hover { color: var(--gris); }
+
+    @keyframes apparaitre {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .titre-image { animation: none; }
+      * { animation-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="titre-wrap">
+    <img
+      class="titre-image"
+      src="../images/autocollant_titre_1_apprendre_le_francais.png"
+      alt="Le français avec Keb & Bek"
+      draggable="false"
+    >
+  </div>
+
+  <h1>Elige una lección</h1>
+  <p class="sous-titre">Continúa donde lo dejaste — o empieza desde el principio.</p>
+
+  <div class="groupe">
+    <div class="groupe-titre">Lecciones 1–10</div>
+    <div class="grille-lecons">
+      <a class="lecon-btn" href="../lecon_001/es_lecon_001_p01.html">
+        <span class="lecon-num">1</span>
+        <span class="lecon-label">Inicio</span>
+      </a>
+      <a class="lecon-btn indisponible" href="#"><span class="lecon-num">2</span><span class="lecon-label">Pronto</span></a>
+      <a class="lecon-btn indisponible" href="#"><span class="lecon-num">3</span><span class="lecon-label">Pronto</span></a>
+      <a class="lecon-btn indisponible" href="#"><span class="lecon-num">4</span><span class="lecon-label">Pronto</span></a>
+      <a class="lecon-btn indisponible" href="#"><span class="lecon-num">5</span><span class="lecon-label">Pronto</span></a>
+      <a class="lecon-btn indisponible" href="#"><span class="lecon-num">6</span><span class="lecon-label">Pronto</span></a>
+      <a class="lecon-btn indisponible" href="#"><span class="lecon-num">7</span><span class="lecon-label">Pronto</span></a>
+      <a class="lecon-btn indisponible" href="#"><span class="lecon-num">8</span><span class="lecon-label">Pronto</span></a>
+      <a class="lecon-btn indisponible" href="#"><span class="lecon-num">9</span><span class="lecon-label">Pronto</span></a>
+      <a class="lecon-btn indisponible" href="#"><span class="lecon-num">10</span><span class="lecon-label">Pronto</span></a>
+    </div>
+  </div>
+
+  <a class="retour" href="../index.html">← Cambiar idioma</a>
+
+</div>
+</body>
+</html>
