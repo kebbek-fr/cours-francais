@@ -175,12 +175,6 @@
       transform: translateY(-1px) scale(1.01);
     }
 
-    .drapeau {
-      font-size: 28px;
-      line-height: 1;
-      display: block;
-    }
-
     .lang-nom {
       font-size: 13px;
       font-weight: 700;
@@ -270,51 +264,58 @@
   <div class="langues" id="langues">
 
     <a class="lang-btn" href="lecon_001/fr.html" onclick="choisir('fr')" id="btn-fr">
-      <span class="drapeau">🇫🇷</span>
       <span class="lang-nom">Français</span>
       <span class="lang-natif">français</span>
     </a>
 
     <a class="lang-btn" href="lecon_001/en.html" onclick="choisir('en')" id="btn-en">
-      <span class="drapeau">🇬🇧</span>
       <span class="lang-nom">Anglais</span>
       <span class="lang-natif">English</span>
     </a>
 
     <a class="lang-btn" href="lecon_001/es.html" onclick="choisir('es')" id="btn-es">
-      <span class="drapeau">🇪🇸</span>
       <span class="lang-nom">Espagnol</span>
       <span class="lang-natif">Español</span>
     </a>
 
     <a class="lang-btn" href="lecon_001/pt.html" onclick="choisir('pt')" id="btn-pt">
-      <span class="drapeau">🇧🇷</span>
       <span class="lang-nom">Portugais</span>
       <span class="lang-natif">Português</span>
     </a>
 
     <a class="lang-btn" href="lecon_001/zh.html" onclick="choisir('zh')" id="btn-zh">
-      <span class="drapeau">🇨🇳</span>
       <span class="lang-nom">Chinois</span>
       <span class="lang-natif">中文</span>
     </a>
 
     <a class="lang-btn" href="lecon_001/it.html" onclick="choisir('it')" id="btn-it">
-      <span class="drapeau">🇮🇹</span>
       <span class="lang-nom">Italien</span>
       <span class="lang-natif">Italiano</span>
     </a>
 
     <a class="lang-btn" href="lecon_001/tl.html" onclick="choisir('tl')" id="btn-tl">
-      <span class="drapeau">🇵🇭</span>
       <span class="lang-nom">Tagalog</span>
       <span class="lang-natif">Tagalog</span>
     </a>
 
     <a class="lang-btn" href="lecon_001/ca.html" onclick="choisir('ca')" id="btn-ca">
-      <span class="drapeau">🏴</span>
       <span class="lang-nom">Catalan</span>
       <span class="lang-natif">Català</span>
+    </a>
+
+    <a class="lang-btn" href="lecon_001/ko.html" onclick="choisir('ko')" id="btn-ko">
+      <span class="lang-nom">Coréen</span>
+      <span class="lang-natif">한국어</span>
+    </a>
+
+    <a class="lang-btn" href="lecon_001/ja.html" onclick="choisir('ja')" id="btn-ja">
+      <span class="lang-nom">Japonais</span>
+      <span class="lang-natif">日本語</span>
+    </a>
+
+    <a class="lang-btn" href="lecon_001/ht.html" onclick="choisir('ht')" id="btn-ht">
+      <span class="lang-nom">Créole haïtien</span>
+      <span class="lang-natif">Kreyòl ayisyen</span>
     </a>
 
   </div>
@@ -339,6 +340,9 @@
     it: ["it", "it-IT"],
     tl: ["tl", "fil"],
     ca: ["ca"],
+    ko: ["ko", "ko-KR"],
+    ja: ["ja", "ja-JP"],
+    ht: ["ht"],
   };
 
   function detecterLangue() {
