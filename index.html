@@ -189,6 +189,14 @@
       text-align: center;
     }
 
+    /* Langue pas encore disponible */
+    .lang-btn.indisponible {
+      opacity: 0.35;
+      pointer-events: none;
+      border-style: dashed;
+      cursor: default;
+    }
+
     /* Badge détectée */
     .lang-btn.detectee {
       border-color: var(--vert);
@@ -263,7 +271,7 @@
 
   <div class="langues" id="langues">
 
-    <a class="lang-btn" href="preface/fr.html" onclick="choisir('fr')" id="btn-fr">
+    <a class="lang-btn indisponible" href="#" id="btn-fr">
       <span class="lang-nom">Français</span>
       <span class="lang-natif">français</span>
     </a>
@@ -283,37 +291,37 @@
       <span class="lang-natif">Português</span>
     </a>
 
-    <a class="lang-btn" href="preface/zh.html" onclick="choisir('zh')" id="btn-zh">
+    <a class="lang-btn indisponible" href="#" id="btn-zh">
       <span class="lang-nom">Chinois</span>
       <span class="lang-natif">中文</span>
     </a>
 
-    <a class="lang-btn" href="preface/it.html" onclick="choisir('it')" id="btn-it">
+    <a class="lang-btn indisponible" href="#" id="btn-it">
       <span class="lang-nom">Italien</span>
       <span class="lang-natif">Italiano</span>
     </a>
 
-    <a class="lang-btn" href="preface/tl.html" onclick="choisir('tl')" id="btn-tl">
+    <a class="lang-btn indisponible" href="#" id="btn-tl">
       <span class="lang-nom">Tagalog</span>
       <span class="lang-natif">Tagalog</span>
     </a>
 
-    <a class="lang-btn" href="preface/ca.html" onclick="choisir('ca')" id="btn-ca">
+    <a class="lang-btn indisponible" href="#" id="btn-ca">
       <span class="lang-nom">Catalan</span>
       <span class="lang-natif">Català</span>
     </a>
 
-    <a class="lang-btn" href="preface/ko.html" onclick="choisir('ko')" id="btn-ko">
+    <a class="lang-btn indisponible" href="#" id="btn-ko">
       <span class="lang-nom">Coréen</span>
       <span class="lang-natif">한국어</span>
     </a>
 
-    <a class="lang-btn" href="preface/ja.html" onclick="choisir('ja')" id="btn-ja">
+    <a class="lang-btn indisponible" href="#" id="btn-ja">
       <span class="lang-nom">Japonais</span>
       <span class="lang-natif">日本語</span>
     </a>
 
-    <a class="lang-btn" href="preface/ht.html" onclick="choisir('ht')" id="btn-ht">
+    <a class="lang-btn indisponible" href="#" id="btn-ht">
       <span class="lang-nom">Créole haïtien</span>
       <span class="lang-natif">Kreyòl ayisyen</span>
     </a>
