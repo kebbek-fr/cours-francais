@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 1 — Le français avec Keb & Bek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Patrick+Hand&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400i&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --beige:       #F2EDE3;
+      --beige-clair: #FDF8F2;
+      --bleu-poudre: #B8C9E0;
+      --bleu-fonce:  #7A9BBF;
+      --vert:        #7FA86E;
+      --vert-clair:  #EAF3DE;
+      --vert-fonce:  #4A7A36;
+      --texte:       #2A2422;
+      --gris:        #8A8480;
+      --blanc:       #ffffff;
+      --ombre:       rgba(42, 36, 34, 0.10);
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--beige);
+      font-family: "Nunito", sans-serif;
+      color: var(--texte);
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px 56px;
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px var(--ombre);
+      background: #F2EDE3;
+    }
+
+    .scene img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    /* Texte centré entre les deux figurines */
+    .texte-scene {
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 36%;
+      font-family: "Pacifico", cursive;
+      font-size: clamp(14px, 2vw, 26px);
+      line-height: 1.6;
+      color: var(--bleu-fonce);
+      text-align: center;
+      opacity: 0;
+      animation: apparaitre-texte 1s ease 0.6s forwards;
+    }
+
+    @keyframes apparaitre-texte {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .carte {
+      margin-top: 28px;
+      width: 100%;
+      max-width: 1000px;
+      background: var(--beige-clair);
+      border: 1.5px solid rgba(184,201,224,0.4);
+      border-radius: 20px;
+      padding: clamp(20px, 3vw, 36px) clamp(24px, 4vw, 44px);
+      box-shadow: 0 4px 24px var(--ombre);
+    }
+
+    .carte-fr {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(20px, 2.6vw, 28px);
+      color: var(--bleu-fonce);
+      margin-bottom: 12px;
+    }
+
+    .carte-note {
+      font-size: clamp(14px, 1.6vw, 16px);
+      line-height: 1.7;
+      color: var(--texte);
+    }
+
+    .carte-trans {
+      margin-top: 10px;
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--gris);
+      font-style: italic;
+    }
+
+    .nav {
+      margin-top: 32px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .btn-suivant {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--vert-fonce);
+      color: var(--blanc);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(74,122,54,0.30);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+    }
+    .btn-suivant:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 10px 32px rgba(74,122,54,0.38);
+    }
+
+    .btn-precedent {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--beige-clair);
+      color: var(--texte);
+      border: 1.5px solid rgba(184,201,224,0.5);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px var(--ombre);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, border-color 0.18s;
+    }
+    .btn-precedent:hover {
+      border-color: var(--bleu-fonce);
+      transform: translateY(-3px) scale(1.04);
+    }
+
+    .lecon-haut {
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: 14px;
+      opacity: 0;
+      animation: apparaitre 0.5s ease 0.1s forwards;
+    }
+
+    @keyframes apparaitre {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .lien-menu {
+      font-size: 12px;
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .lien-menu:hover { color: var(--gris); }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="lecon-haut">
+    <a class="lien-menu" href="../menus/en.html">← Lesson selection</a>
+  </div>
+
+  <div class="scene">
+    <img src="__IMG__" alt="Nagar and Zyeu-Bleu face to face">
+    <div class="texte-scene">
+      Pan pan pan,<br>
+      pin pin pin,<br>
+      pon pon pon,<br>
+      pun pun pun !
+    </div>
+  </div>
+
+  <div class="carte">
+    <div class="carte-fr">— Pan pan pan, pin pin pin, pon pon pon, pun pun pun !</div>
+    <div class="carte-note">
+      Now it's Zyeu-Bleu's turn! He's not saying anything meaningful either — just humming back at Nagar in the same playful spirit, matching her energy sound for sound.
+    </div>
+    <div class="carte-trans">
+      (Notice the four vowel sounds: <em>pan</em>, <em>pin</em>, <em>pon</em>, <em>pun</em> — each one is a different French nasal vowel.)
+    </div>
+    <div class="carte-note" style="margin-top: 14px;">
+      <strong style="color: var(--bleu-fonce); font-style: normal;">Tip — nasal vowels:</strong> French has sounds that don't quite exist in English, but you're closer than you think! You already use nasal sounds in words like <em>song</em> or <em>ring</em>. In French, <em>on</em> (as in <em>pon</em>) sounds like the English "ong" — but without finishing the "g". Just let the sound trail off through your nose before the "g" ever arrives. Same idea for <em>an</em>, <em>in</em>, and <em>un</em> — each is a vowel sound that hums gently through the nose.
+    </div>
+  </div>
+
+  <div class="nav">
+    <a class="btn-precedent" href="en_lecon_001_p01.html">← Back</a>
+    <a class="btn-suivant" href="#">Next →</a>
+  </div>
+
+</div>
+</body>
+</html>
