@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lição 1 — Le français avec Keb & Bek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Patrick+Hand&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400i&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --beige:       #F2EDE3;
+      --beige-clair: #FDF8F2;
+      --bleu-poudre: #B8C9E0;
+      --bleu-fonce:  #7A9BBF;
+      --vert:        #7FA86E;
+      --vert-clair:  #EAF3DE;
+      --vert-fonce:  #4A7A36;
+      --texte:       #2A2422;
+      --gris:        #8A8480;
+      --blanc:       #ffffff;
+      --ombre:       rgba(42, 36, 34, 0.10);
+      --corail:       #C9694F;
+      --corail-clair: #FBEAE6;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--beige);
+      font-family: "Nunito", sans-serif;
+      color: var(--texte);
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px 56px;
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px var(--ombre);
+      background: #F2EDE3;
+    }
+
+    .scene img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .seq-img {
+      transition: opacity 1s ease;
+      opacity: 0;
+    }
+    .seq-img.actif {
+      opacity: 1;
+    }
+    #seqImg1 { position: relative; }
+    #seqImg2, #seqImg3, #seqImg4 { position: absolute; top: 0; left: 0; }
+
+    .texte-salut {
+      position: absolute;
+      top: 30%;
+      left: 58%;
+      width: 38%;
+      font-family: "Pacifico", cursive;
+      font-size: clamp(22px, 3.6vw, 40px);
+      line-height: 1.5;
+      color: var(--vert-fonce);
+      text-align: left;
+      opacity: 0;
+      transition: opacity 1s ease 0.4s;
+    }
+    .texte-salut.visible {
+      opacity: 1;
+    }
+
+    .carte {
+      margin-top: 28px;
+      width: 100%;
+      max-width: 1000px;
+      background: var(--beige-clair);
+      border: 1.5px solid rgba(184,201,224,0.4);
+      border-radius: 20px;
+      padding: clamp(20px, 3vw, 36px) clamp(24px, 4vw, 44px);
+      box-shadow: 0 4px 24px var(--ombre);
+      opacity: 0;
+      transition: opacity 0.8s ease;
+    }
+    .carte.visible {
+      opacity: 1;
+    }
+
+    .carte-fr {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(20px, 2.6vw, 28px);
+      color: var(--vert-fonce);
+      margin-bottom: 18px;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--gris);
+      margin-bottom: 18px;
+      font-style: italic;
+    }
+
+    .zone-reponse {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .zone-reponse input {
+      flex: 1;
+      min-width: 0;
+      font-family: "Nunito", sans-serif;
+      font-size: clamp(15px, 1.8vw, 18px);
+      padding: 14px 22px;
+      border: 1.5px solid rgba(184,201,224,0.5);
+      border-radius: 100px;
+      background: var(--blanc);
+      color: var(--texte);
+      outline: none;
+      transition: border-color 0.2s ease, background 0.2s ease;
+    }
+    .zone-reponse input::placeholder {
+      color: var(--gris);
+    }
+    .zone-reponse input:focus {
+      border-color: var(--bleu-fonce);
+    }
+    .zone-reponse input.correct {
+      border-color: var(--vert-fonce);
+      background: var(--vert-clair);
+    }
+    .zone-reponse input.incorrect {
+      border-color: var(--corail);
+      background: var(--corail-clair);
+    }
+
+    .btn-valider {
+      flex-shrink: 0;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      border: none;
+      background: var(--vert-fonce);
+      color: var(--blanc);
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 16px rgba(74,122,54,0.30);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+    }
+    .btn-valider:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 8px 24px rgba(74,122,54,0.38);
+    }
+    .btn-valider:disabled {
+      cursor: default;
+      opacity: 0.6;
+      transform: none;
+      box-shadow: 0 4px 16px rgba(74,122,54,0.30);
+    }
+
+    .feedback {
+      min-height: 24px;
+      font-size: clamp(14px, 1.6vw, 16px);
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .feedback.correct { color: var(--vert-fonce); }
+    .feedback.incorrect { color: var(--corail); }
+
+    .nav {
+      margin-top: 32px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .btn-suivant {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--vert-fonce);
+      color: var(--blanc);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(74,122,54,0.30);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.5s ease, transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+    }
+    .btn-suivant.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .btn-suivant:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 10px 32px rgba(74,122,54,0.38);
+    }
+
+    .btn-precedent {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--beige-clair);
+      color: var(--texte);
+      border: 1.5px solid rgba(184,201,224,0.5);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px var(--ombre);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, border-color 0.18s;
+    }
+    .btn-precedent:hover {
+      border-color: var(--bleu-fonce);
+      transform: translateY(-3px) scale(1.04);
+    }
+
+    .lecon-haut {
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: 14px;
+      opacity: 0;
+      animation: apparaitre 0.5s ease 0.1s forwards;
+    }
+
+    @keyframes apparaitre {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .lien-menu {
+      font-size: 12px;
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .lien-menu:hover { color: var(--gris); }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="lecon-haut">
+    <a class="lien-menu" href="../menus/pt.html">← Seleção de lições</a>
+  </div>
+
+  <div class="scene">
+    <img id="seqImg1" class="seq-img actif" src="../images/lecon_001_allez_hop.png" alt="A pequena Bek segura sua figurinha do Nagar enquanto a mãe, vista de costas, a leva para fora do quarto">
+    <img id="seqImg2" class="seq-img" src="../images/lecon_001_modèle_de_modèle.png" alt="Um quarto vazio, suavemente iluminado — uma pausa silenciosa">
+    <img id="seqImg3" class="seq-img" src="../images/lecon_001_elle_arrive.png" alt="Uma jovem de suéter verde entra em cena, vista de perfil">
+    <img id="seqImg4" class="seq-img" src="../images/lecon_001_salut_je_mappelle_poutine.png" alt="Uma jovem de suéter verde olha de frente com um sorriso caloroso">
+    <div class="texte-salut" id="texteSalut">Salut, toi !</div>
+  </div>
+
+  <div class="carte" id="carteInteraction">
+    <div class="carte-fr">— Salut, toi !</div>
+
+    <p class="hint">Digite sua resposta em francês — maiúsculas e pontuação não importam.</p>
+
+    <div class="zone-reponse">
+      <input type="text" id="reponseInput" aria-label="Sua resposta" placeholder="…" autocomplete="off" spellcheck="false">
+      <button class="btn-valider" id="btnValider" aria-label="Verificar resposta">→</button>
+    </div>
+
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+  </div>
+
+  <div class="nav">
+    <a class="btn-precedent" href="pt_lecon_001_p08.html">← Voltar</a>
+    <a class="btn-suivant" id="btnSuivant" href="pt_lecon_001_p10.html">Próxima →</a>
+  </div>
+
+</div>
+
+<script>
+  // ── Séquence fondu automatique (silent) ──
+  var seqImg1 = document.getElementById('seqImg1');
+  var seqImg2 = document.getElementById('seqImg2');
+  var seqImg3 = document.getElementById('seqImg3');
+  var seqImg4 = document.getElementById('seqImg4');
+  var texteSalut = document.getElementById('texteSalut');
+  var carte = document.getElementById('carteInteraction');
+  var input = document.getElementById('reponseInput');
+  var btnValider = document.getElementById('btnValider');
+  var feedback = document.getElementById('feedback');
+  var btnSuivant = document.getElementById('btnSuivant');
+  var repondu = false;
+  var minuteurDemarre = false;
+
+  setTimeout(function () {
+    seqImg1.classList.remove('actif');
+    seqImg2.classList.add('actif');
+
+    setTimeout(function () {
+      seqImg2.classList.remove('actif');
+      seqImg3.classList.add('actif');
+
+      setTimeout(function () {
+        seqImg3.classList.remove('actif');
+        seqImg4.classList.add('actif');
+
+        setTimeout(function () {
+          texteSalut.classList.add('visible');
+
+          // Laisse le temps de lire "Salut, toi !" avant que la case
+          // (et le focus du champ) ne fasse défiler la page.
+          setTimeout(function () {
+            carte.classList.add('visible');
+            input.focus();
+            demarrerMinuteur();
+          }, 3000);
+
+        }, 400);
+      }, 2000); // image "vide" tenue plus longtemps — simule un changement de personnages
+    }, 1000);
+  }, 2000);
+
+  // ── Minuteur 30s : révèle "Next" même sans bonne réponse ──
+  function demarrerMinuteur() {
+    if (minuteurDemarre) return;
+    minuteurDemarre = true;
+    setTimeout(function () {
+      btnSuivant.classList.add('visible');
+    }, 30000);
+  }
+
+  // ── Normalisation : minuscules, sans accents, sans ponctuation ──
+  function normaliser(texte) {
+    return texte
+      .toLowerCase()
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  var reponsesAcceptees = ['salut', 'salut toi', 'bonjour', 'bonjour toi', 'allo', 'allo toi'];
+
+  function verifier() {
+    if (repondu) return;
+    var valeur = normaliser(input.value);
+    if (valeur.length === 0) return;
+
+    if (reponsesAcceptees.indexOf(valeur) !== -1) {
+      repondu = true;
+      input.classList.remove('incorrect');
+      input.classList.add('correct');
+      input.disabled = true;
+      btnValider.disabled = true;
+      feedback.textContent = '✓ Isso mesmo!';
+      feedback.className = 'feedback correct';
+      btnSuivant.classList.add('visible');
+    } else {
+      input.classList.add('incorrect');
+      feedback.textContent = 'Quase! Tente de novo.';
+      feedback.className = 'feedback incorrect';
+    }
+  }
+
+  btnValider.addEventListener('click', verifier);
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter') verifier();
+  });
+  input.addEventListener('input', function () {
+    input.classList.remove('incorrect');
+    feedback.textContent = '';
+    feedback.className = 'feedback';
+  });
+</script>
+</body>
+</html>
