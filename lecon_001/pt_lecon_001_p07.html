@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lição 1 — Le français avec Keb & Bek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,500;1,600&family=Pacifico&family=Patrick+Hand&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400i&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --beige:       #F2EDE3;
+      --beige-clair: #FDF8F2;
+      --bleu-poudre: #B8C9E0;
+      --bleu-fonce:  #7A9BBF;
+      --vert:        #7FA86E;
+      --vert-clair:  #EAF3DE;
+      --vert-fonce:  #4A7A36;
+      --texte:       #2A2422;
+      --gris:        #8A8480;
+      --blanc:       #ffffff;
+      --ombre:       rgba(42, 36, 34, 0.10);
+      --terra:       #B5633A;
+      --terra-clair: #FAE8DC;
+      --terra-fond:  #FBF0EA;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--beige);
+      font-family: "Nunito", sans-serif;
+      color: var(--texte);
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px 56px;
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px var(--ombre);
+      background: #F2EDE3;
+    }
+
+    .scene img { display: block; width: 100%; height: auto; }
+
+    .texte-scene {
+      position: absolute;
+      top: 8%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60%;
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: clamp(16px, 2.4vw, 30px);
+      line-height: 1.5;
+      color: var(--terra);
+      text-align: center;
+      opacity: 0;
+      animation: apparaitre-texte 1s ease 0.6s forwards;
+    }
+
+    @keyframes apparaitre-texte {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .carte {
+      margin-top: 28px;
+      width: 100%;
+      max-width: 1000px;
+      background: var(--terra-fond);
+      border: 1.5px solid rgba(181,99,58,0.25);
+      border-radius: 20px;
+      padding: clamp(20px, 3vw, 36px) clamp(24px, 4vw, 44px);
+      box-shadow: 0 4px 24px var(--ombre);
+    }
+
+    .carte-fr {
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: clamp(20px, 2.6vw, 28px);
+      color: var(--terra);
+      margin-bottom: 18px;
+    }
+
+    .tuiles { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+
+    .tuile {
+      position: relative;
+      min-width: 120px;
+      cursor: pointer;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px var(--ombre);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tuile-face, .tuile-dos {
+      padding: 14px 20px;
+      text-align: center;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .tuile-face {
+      background: var(--terra-clair);
+      border: 1.5px solid rgba(181,99,58,0.35);
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--terra);
+      position: relative;
+      z-index: 1;
+    }
+
+    .tuile-dos {
+      position: absolute; inset: 0;
+      background: var(--terra);
+      font-family: "Nunito", sans-serif;
+      font-size: clamp(13px, 1.5vw, 15px);
+      font-weight: 600;
+      color: var(--blanc);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: translateY(6px); z-index: 2;
+    }
+
+    @media (hover: hover) {
+      .tuile:hover .tuile-dos { opacity: 1; transform: translateY(0); }
+      .tuile:hover .tuile-face { opacity: 0; }
+    }
+
+    .tuile.ouvert .tuile-dos { opacity: 1; transform: translateY(0); }
+    .tuile.ouvert .tuile-face { opacity: 0; }
+
+    /* ── BLOC CONJUGAISON — registro Ginette ── */
+    .conjugaison {
+      margin-top: 20px;
+      background: #FDF3EC;
+      border: 1.5px solid rgba(181,99,58,0.30);
+      border-radius: 16px;
+      padding: 18px 24px;
+    }
+
+    .conj-titre {
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-weight: 600;
+      font-size: clamp(15px, 1.8vw, 18px);
+      color: var(--terra);
+      margin-bottom: 14px;
+    }
+
+    .conj-table {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .conj-ligne {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      font-size: clamp(15px, 1.8vw, 18px);
+    }
+
+    .conj-pronom {
+      font-family: "Lora", serif;
+      font-style: italic;
+      color: var(--terra);
+      min-width: 50px;
+    }
+
+    .conj-forme {
+      font-family: "Lora", serif;
+      font-style: italic;
+      font-weight: 600;
+      color: var(--vert-fonce);
+      font-size: clamp(17px, 2vw, 21px);
+    }
+
+    .conj-note {
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--gris);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .carte-note {
+      font-size: clamp(14px, 1.6vw, 16px);
+      line-height: 1.7;
+      color: var(--texte);
+      margin-bottom: 14px;
+    }
+
+    .carte-note strong { color: var(--terra); font-style: normal; }
+
+    .nav { margin-top: 32px; display: flex; gap: 16px; }
+
+    .btn-suivant {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px; background: var(--vert-fonce); color: var(--blanc);
+      font-family: "Patrick Hand", cursive; font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px; text-decoration: none;
+      box-shadow: 0 4px 20px rgba(74,122,54,0.30);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+    }
+    .btn-suivant:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 10px 32px rgba(74,122,54,0.38); }
+
+    .btn-precedent {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px; background: var(--beige-clair); color: var(--texte);
+      border: 1.5px solid rgba(184,201,224,0.5);
+      font-family: "Patrick Hand", cursive; font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px; text-decoration: none;
+      box-shadow: 0 2px 8px var(--ombre);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, border-color 0.18s;
+    }
+    .btn-precedent:hover { border-color: var(--bleu-fonce); transform: translateY(-3px) scale(1.04); }
+
+    .lecon-haut {
+      width: 100%; max-width: 1000px; margin-bottom: 14px;
+      opacity: 0; animation: apparaitre 0.5s ease 0.1s forwards;
+    }
+
+    @keyframes apparaitre {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .lien-menu { font-size: 12px; color: #bbb; text-decoration: none; transition: color 0.15s; }
+    .lien-menu:hover { color: var(--gris); }
+
+    .hint { font-size: 11px; color: var(--gris); margin-bottom: 10px; font-style: italic; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="lecon-haut">
+    <a class="lien-menu" href="../menus/pt.html">← Seleção de lições</a>
+  </div>
+
+  <div class="scene">
+    <img src="../images/lecon_001_intervention_inopportune.png" alt="Ginette se intromete entre Nagar e Zyeu-Bleu">
+    <div class="texte-scene">
+      Keb ! Bek !<br>Le dîner est prêt.
+    </div>
+  </div>
+
+  <div class="carte">
+    <div class="carte-fr">— Keb ! Bek ! Le dîner est prêt.</div>
+
+    <p class="hint">Passe o cursor para ver a tradução — ou toque no celular.</p>
+
+    <div class="tuiles">
+      <div class="tuile">
+        <div class="tuile-face">Le dîner</div>
+        <div class="tuile-dos">o jantar</div>
+      </div>
+      <div class="tuile">
+        <div class="tuile-face">est</div>
+        <div class="tuile-dos">está</div>
+      </div>
+      <div class="tuile">
+        <div class="tuile-face">prêt</div>
+        <div class="tuile-dos">pronto</div>
+      </div>
+    </div>
+
+    <div class="carte-note">
+      <strong>Uma voz diferente.</strong> Não é mais a Nagar nem o Zyeu-Bleu — é a Ginette, mãe da Bek, chamando de fora de cena. A brincadeira para por um segundo. Repare no acento circunflexo de <em>dîner</em> e no de <em>prêt</em> — sinais pequenos, mas que mudam o som das vogais.
+    </div>
+
+    <div class="conjugaison">
+      <div class="conj-titre">O verbo être (ser/estar) — seu primeiro verbo irregular</div>
+      <div class="conj-table">
+        <div class="conj-ligne">
+          <span class="conj-pronom">je</span>
+          <span class="conj-forme">suis</span>
+        </div>
+        <div class="conj-ligne">
+          <span class="conj-pronom">tu</span>
+          <span class="conj-forme">es</span>
+        </div>
+        <div class="conj-ligne">
+          <span class="conj-pronom">il / elle</span>
+          <span class="conj-forme">est</span>
+        </div>
+      </div>
+      <div class="conj-note">
+        Até agora, todos os verbos que você viu eram formados acrescentando uma terminação regular a uma raiz (<em>parl-e</em>, <em>parl-es</em>...). <em>Être</em> quebra completamente essa lógica. <em>Suis</em>, <em>es</em>, <em>est</em> — três formas que não se parecem entre si, sem nenhuma raiz comum visível. Isso não é a norma do francês; é a exceção entre as exceções. Por outro lado, é também um dos verbos mais úteis que existem, então vale a pena conhecê-lo desde já.<br><br>
+        <strong>Um presente para você:</strong> em português, você tem dois verbos — <em>ser</em> e <em>estar</em> — e às vezes hesita entre os dois. Em francês, essa hesitação desaparece: <em>être</em> cobre os dois sentidos. Não há escolha a fazer. Na frase da Ginette, <em>le dîner</em> ("o jantar", ele) corresponde a <em>il</em> — por isso o verbo é <em>est</em>: <em>le dîner est prêt</em>, "o jantar está pronto".
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a class="btn-precedent" href="pt_lecon_001_p06.html">← Voltar</a>
+    <a class="btn-suivant" href="pt_lecon_001_p08.html">Próxima →</a>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.tuile').forEach(function(tuile) {
+    tuile.addEventListener('click', function(e) {
+      var wasOpen = tuile.classList.contains('ouvert');
+      document.querySelectorAll('.tuile').forEach(function(t) { t.classList.remove('ouvert'); });
+      if (!wasOpen) tuile.classList.add('ouvert');
+    });
+  });
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.tuile')) {
+      document.querySelectorAll('.tuile').forEach(function(t) { t.classList.remove('ouvert'); });
+    }
+  });
+</script>
+</body>
+</html>
