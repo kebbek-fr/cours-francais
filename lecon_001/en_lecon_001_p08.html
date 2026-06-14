@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 1 — Le français avec Keb & Bek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,500;1,600&family=Pacifico&family=Patrick+Hand&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400i&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --beige:       #F2EDE3;
+      --beige-clair: #FDF8F2;
+      --bleu-poudre: #B8C9E0;
+      --bleu-fonce:  #7A9BBF;
+      --vert:        #7FA86E;
+      --vert-clair:  #EAF3DE;
+      --vert-fonce:  #4A7A36;
+      --texte:       #2A2422;
+      --gris:        #8A8480;
+      --blanc:       #ffffff;
+      --ombre:       rgba(42, 36, 34, 0.10);
+      --bleu-tuile:  #E8EFF7;
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--beige);
+      font-family: "Nunito", sans-serif;
+      color: var(--texte);
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px 56px;
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px var(--ombre);
+      background: #F2EDE3;
+    }
+
+    .scene img { display: block; width: 100%; height: auto; }
+
+    /* ── TEXTES SUPERPOSÉS — Bek puis Keb, décalés ── */
+    .texte-bek {
+      position: absolute;
+      top: 6%;
+      right: 6%;
+      max-width: 40%;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(20px, 3.2vw, 38px);
+      line-height: 1.3;
+      color: var(--vert-fonce);
+      text-align: right;
+      opacity: 0;
+      animation: apparaitre-texte 0.8s ease 0.6s forwards;
+    }
+
+    .texte-keb {
+      position: absolute;
+      top: 20%;
+      left: 6%;
+      max-width: 45%;
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(20px, 3.2vw, 38px);
+      line-height: 1.3;
+      color: var(--bleu-fonce);
+      text-align: left;
+      opacity: 0;
+      animation: apparaitre-texte 0.8s ease 1.6s forwards;
+    }
+
+    @keyframes apparaitre-texte {
+      from { opacity: 0; transform: translateY(10px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .carte {
+      margin-top: 28px;
+      width: 100%;
+      max-width: 1000px;
+      background: var(--beige-clair);
+      border: 1.5px solid rgba(184,201,224,0.4);
+      border-radius: 20px;
+      padding: clamp(20px, 3vw, 36px) clamp(24px, 4vw, 44px);
+      box-shadow: 0 4px 24px var(--ombre);
+    }
+
+    .carte-fr-bek {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(20px, 2.8vw, 30px);
+      color: var(--vert-fonce);
+      margin-bottom: 6px;
+    }
+
+    .carte-fr-keb {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(20px, 2.8vw, 30px);
+      color: var(--bleu-fonce);
+      margin-bottom: 18px;
+    }
+
+    .tuiles { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+
+    .tuile {
+      position: relative;
+      min-width: 110px;
+      cursor: pointer;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px var(--ombre);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tuile-face, .tuile-dos {
+      padding: 14px 20px;
+      text-align: center;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .tuile-face {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(16px, 2vw, 20px);
+      position: relative;
+      z-index: 1;
+      border: 1.5px solid;
+    }
+
+    .tuile-dos {
+      position: absolute; inset: 0;
+      font-family: "Nunito", sans-serif;
+      font-size: clamp(13px, 1.5vw, 15px);
+      font-weight: 600;
+      color: var(--blanc);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: translateY(6px); z-index: 2;
+    }
+
+    @media (hover: hover) {
+      .tuile:hover .tuile-dos { opacity: 1; transform: translateY(0); }
+      .tuile:hover .tuile-face { opacity: 0; }
+    }
+
+    .tuile.ouvert .tuile-dos { opacity: 1; transform: translateY(0); }
+    .tuile.ouvert .tuile-face { opacity: 0; }
+
+    /* Tuile registre Bek (vert) */
+    .tuile.bek .tuile-face { background: var(--vert-clair); border-color: rgba(74,122,54,0.35); color: var(--vert-fonce); }
+    .tuile.bek .tuile-dos { background: var(--vert-fonce); }
+
+    /* Tuile registre Keb (bleu) */
+    .tuile.keb .tuile-face { background: var(--bleu-tuile); border-color: rgba(122,155,191,0.45); color: var(--bleu-fonce); }
+    .tuile.keb .tuile-dos { background: var(--bleu-fonce); }
+
+    .carte-note {
+      font-size: clamp(14px, 1.6vw, 16px);
+      line-height: 1.7;
+      color: var(--texte);
+      margin-bottom: 14px;
+    }
+
+    .carte-note strong.bek { color: var(--vert-fonce); font-style: normal; }
+    .carte-note strong.keb { color: var(--bleu-fonce); font-style: normal; }
+
+    /* ── BLOC CONJUGAISON ── */
+    .conjugaison {
+      margin-top: 20px;
+      background: #F4F8F1;
+      border: 1.5px solid rgba(74,122,54,0.22);
+      border-radius: 16px;
+      padding: 18px 24px;
+    }
+
+    .conj-titre {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--vert-fonce);
+      margin-bottom: 14px;
+    }
+
+    .conj-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 14px;
+      font-size: clamp(15px, 1.8vw, 18px);
+    }
+
+    .conj-table th, .conj-table td {
+      text-align: left;
+      padding: 6px 14px 6px 0;
+    }
+
+    .conj-table th {
+      font-family: "Nunito", sans-serif;
+      font-size: clamp(12px, 1.3vw, 14px);
+      font-weight: 700;
+      color: var(--gris);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      border-bottom: 1.5px solid rgba(74,122,54,0.18);
+      padding-bottom: 8px;
+    }
+
+    .conj-table td.pronom {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--texte);
+    }
+
+    .conj-table td.forme {
+      font-weight: 800;
+      color: var(--vert-fonce);
+    }
+
+    .conj-note {
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--gris);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .conj-note strong { color: var(--vert-fonce); font-style: normal; }
+
+    .nav { margin-top: 32px; display: flex; gap: 16px; }
+
+    .btn-suivant {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px; background: var(--vert-fonce); color: var(--blanc);
+      font-family: "Patrick Hand", cursive; font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px; text-decoration: none;
+      box-shadow: 0 4px 20px rgba(74,122,54,0.30);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+    }
+    .btn-suivant:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 10px 32px rgba(74,122,54,0.38); }
+
+    .btn-precedent {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px; background: var(--beige-clair); color: var(--texte);
+      border: 1.5px solid rgba(184,201,224,0.5);
+      font-family: "Patrick Hand", cursive; font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px; text-decoration: none;
+      box-shadow: 0 2px 8px var(--ombre);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, border-color 0.18s;
+    }
+    .btn-precedent:hover { border-color: var(--bleu-fonce); transform: translateY(-3px) scale(1.04); }
+
+    .lecon-haut {
+      width: 100%; max-width: 1000px; margin-bottom: 14px;
+      opacity: 0; animation: apparaitre 0.5s ease 0.1s forwards;
+    }
+
+    @keyframes apparaitre {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .lien-menu { font-size: 12px; color: #bbb; text-decoration: none; transition: color 0.15s; }
+    .lien-menu:hover { color: var(--gris); }
+
+    .hint { font-size: 11px; color: var(--gris); margin-bottom: 10px; font-style: italic; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="lecon-haut">
+    <a class="lien-menu" href="../menus/en.html">← Lesson selection</a>
+  </div>
+
+  <div class="scene">
+    <img src="../images/lecon_001_maman.png" alt="Bek calls out to her mom while Keb answers from across the room">
+    <div class="texte-bek">Maman !</div>
+    <div class="texte-keb">D'accord !<br>On arrive.</div>
+  </div>
+
+  <div class="carte">
+    <div class="carte-fr-bek">— Maman !</div>
+    <div class="carte-fr-keb">— D'accord ! On arrive.</div>
+
+    <p class="hint">Hover over a word to reveal its meaning — or tap it on mobile.</p>
+
+    <div class="tuiles">
+      <div class="tuile bek">
+        <div class="tuile-face">Maman</div>
+        <div class="tuile-dos">Mom</div>
+      </div>
+      <div class="tuile keb">
+        <div class="tuile-face">D'accord</div>
+        <div class="tuile-dos">Okay</div>
+      </div>
+      <div class="tuile keb">
+        <div class="tuile-face">On</div>
+        <div class="tuile-dos">we (informal)</div>
+      </div>
+      <div class="tuile keb">
+        <div class="tuile-face">arrive</div>
+        <div class="tuile-dos">is coming</div>
+      </div>
+    </div>
+
+    <div class="carte-note">
+      <strong class="bek">A different voice — again.</strong> This time it's not Ginette calling from off-camera — it's <strong class="bek">Bek</strong> and <strong class="keb">Keb</strong> themselves, stepping out of the game for a second to answer their mom. Notice the handwriting-style lettering: that's <em>their</em> voice now, not Nagar's or Zyeu-Bleu's. <em>Maman !</em> is simply how French-speaking kids call out to their mother — warm and informal. And <em>d'accord</em> is one of the most useful little words in French: it means <em>okay</em>, <em>alright</em>, <em>agreed</em> — you'll hear it everywhere.
+    </div>
+
+    <div class="conjugaison">
+      <div class="conj-titre">-er verbs (continued): il/elle and on</div>
+      <table class="conj-table">
+        <tr>
+          <th>&nbsp;</th>
+          <th>parler</th>
+          <th>arriver</th>
+        </tr>
+        <tr>
+          <td class="pronom">il / elle</td>
+          <td class="forme">parle</td>
+          <td class="forme">arrive</td>
+        </tr>
+        <tr>
+          <td class="pronom">on</td>
+          <td class="forme">parle</td>
+          <td class="forme">arrive</td>
+        </tr>
+      </table>
+      <div class="conj-note">
+        Back on page 6, you met <em>je parle</em> — "I speak". Here's the rest of the pattern: <em>il</em>, <em>elle</em>, and <em>on</em> all take the exact same ending as <em>je</em> — they sound identical. So <em>il/elle parle</em> sounds just like <em>je parle</em>, and the same goes for <em>arriver</em>: <em>il/elle arrive</em>, <em>on arrive</em> — same sound, same spelling.<br><br>
+        <strong>About <em>on</em>:</strong> in everyday spoken French, <em>on</em> is the word people actually reach for to say "we" — far more often than the more formal <em>nous</em>. The convenient part? <em>on</em> conjugates exactly like <em>il</em> or <em>elle</em>, third person singular. So when Keb says <em>on arrive</em>, it's built and pronounced exactly like <em>il arrive</em> — it just means "we're coming" instead of "he's coming".
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a class="btn-precedent" href="en_lecon_001_p07.html">← Back</a>
+    <a class="btn-suivant" href="en_lecon_001_p09.html">Next →</a>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.tuile').forEach(function(tuile) {
+    tuile.addEventListener('click', function(e) {
+      var wasOpen = tuile.classList.contains('ouvert');
+      document.querySelectorAll('.tuile').forEach(function(t) { t.classList.remove('ouvert'); });
+      if (!wasOpen) tuile.classList.add('ouvert');
+    });
+  });
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.tuile')) {
+      document.querySelectorAll('.tuile').forEach(function(t) { t.classList.remove('ouvert'); });
+    }
+  });
+</script>
+</body>
+</html>
