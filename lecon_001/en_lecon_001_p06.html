@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lesson 1 — Le français avec Keb & Bek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Patrick+Hand&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400i&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --beige:       #F2EDE3;
+      --beige-clair: #FDF8F2;
+      --bleu-poudre: #B8C9E0;
+      --bleu-fonce:  #7A9BBF;
+      --vert:        #7FA86E;
+      --vert-clair:  #EAF3DE;
+      --vert-fonce:  #4A7A36;
+      --texte:       #2A2422;
+      --gris:        #8A8480;
+      --blanc:       #ffffff;
+      --ombre:       rgba(42, 36, 34, 0.10);
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--beige);
+      font-family: "Nunito", sans-serif;
+      color: var(--texte);
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px 56px;
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px var(--ombre);
+      background: #F2EDE3;
+    }
+
+    .scene img { display: block; width: 100%; height: auto; }
+
+    .texte-scene {
+      position: absolute;
+      top: 30%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 30%;
+      font-family: "Pacifico", cursive;
+      font-size: clamp(14px, 2vw, 26px);
+      line-height: 1.6;
+      color: var(--vert-fonce);
+      text-align: center;
+      opacity: 0;
+      animation: apparaitre-texte 1s ease 0.6s forwards;
+    }
+
+    @keyframes apparaitre-texte {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .carte {
+      margin-top: 28px;
+      width: 100%;
+      max-width: 1000px;
+      background: var(--beige-clair);
+      border: 1.5px solid rgba(184,201,224,0.4);
+      border-radius: 20px;
+      padding: clamp(20px, 3vw, 36px) clamp(24px, 4vw, 44px);
+      box-shadow: 0 4px 24px var(--ombre);
+    }
+
+    .carte-fr {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(20px, 2.6vw, 28px);
+      color: var(--vert-fonce);
+      margin-bottom: 18px;
+    }
+
+    .tuiles { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 24px; }
+
+    .tuile {
+      position: relative;
+      min-width: 120px;
+      cursor: pointer;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px var(--ombre);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tuile-face, .tuile-dos {
+      padding: 14px 20px;
+      text-align: center;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .tuile-face {
+      background: var(--vert-clair);
+      border: 1.5px solid rgba(127,168,110,0.35);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--vert-fonce);
+      position: relative;
+      z-index: 1;
+    }
+
+    .tuile-dos {
+      position: absolute; inset: 0;
+      background: var(--vert-fonce);
+      font-family: "Nunito", sans-serif;
+      font-size: clamp(13px, 1.5vw, 15px);
+      font-weight: 600;
+      color: var(--blanc);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: translateY(6px); z-index: 2;
+    }
+
+    @media (hover: hover) {
+      .tuile:hover .tuile-dos { opacity: 1; transform: translateY(0); }
+      .tuile:hover .tuile-face { opacity: 0; }
+    }
+
+    .tuile.ouvert .tuile-dos { opacity: 1; transform: translateY(0); }
+    .tuile.ouvert .tuile-face { opacity: 0; }
+
+    /* ── BLOC CONJUGAISON ── */
+    .conjugaison {
+      margin-top: 20px;
+      background: #EEF4FB;
+      border: 1.5px solid var(--bleu-poudre);
+      border-radius: 16px;
+      padding: 18px 24px;
+    }
+
+    .conj-titre {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(15px, 1.8vw, 18px);
+      color: var(--bleu-fonce);
+      margin-bottom: 14px;
+    }
+
+    .conj-table {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .conj-ligne {
+      display: flex;
+      align-items: baseline;
+      gap: 12px;
+      font-size: clamp(15px, 1.8vw, 18px);
+    }
+
+    .conj-pronom {
+      font-family: "Patrick Hand", cursive;
+      color: var(--bleu-fonce);
+      min-width: 36px;
+    }
+
+    .conj-terminaison {
+      font-family: "Patrick Hand", cursive;
+      color: var(--gris);
+      min-width: 40px;
+    }
+
+    .conj-forme {
+      font-family: "Patrick Hand", cursive;
+      color: var(--vert-fonce);
+      font-size: clamp(17px, 2vw, 21px);
+    }
+
+    .conj-note {
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--gris);
+      font-style: italic;
+      line-height: 1.65;
+    }
+
+    .carte-note {
+      font-size: clamp(14px, 1.6vw, 16px);
+      line-height: 1.7;
+      color: var(--texte);
+      margin-bottom: 14px;
+    }
+
+    .carte-note strong { color: var(--vert-fonce); }
+
+    .carte-trans {
+      margin-top: 10px;
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--gris);
+      font-style: italic;
+    }
+
+    .nav { margin-top: 32px; display: flex; gap: 16px; }
+
+    .btn-suivant {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px; background: var(--vert-fonce); color: var(--blanc);
+      font-family: "Patrick Hand", cursive; font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px; text-decoration: none;
+      box-shadow: 0 4px 20px rgba(74,122,54,0.30);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+    }
+    .btn-suivant:hover { transform: translateY(-3px) scale(1.04); box-shadow: 0 10px 32px rgba(74,122,54,0.38); }
+
+    .btn-precedent {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 32px; background: var(--beige-clair); color: var(--texte);
+      border: 1.5px solid rgba(184,201,224,0.5);
+      font-family: "Patrick Hand", cursive; font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px; text-decoration: none;
+      box-shadow: 0 2px 8px var(--ombre);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, border-color 0.18s;
+    }
+    .btn-precedent:hover { border-color: var(--bleu-fonce); transform: translateY(-3px) scale(1.04); }
+
+    .lecon-haut {
+      width: 100%; max-width: 1000px; margin-bottom: 14px;
+      opacity: 0; animation: apparaitre 0.5s ease 0.1s forwards;
+    }
+
+    @keyframes apparaitre {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .lien-menu { font-size: 12px; color: #bbb; text-decoration: none; transition: color 0.15s; }
+    .lien-menu:hover { color: var(--gris); }
+
+    .hint { font-size: 11px; color: var(--gris); margin-bottom: 10px; font-style: italic; }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="lecon-haut">
+    <a class="lien-menu" href="../menus/en.html">← Lesson selection</a>
+  </div>
+
+  <div class="scene">
+    <img src="../images/lecon_001_je_suis_fantastique.png" alt="Nagar, hand to her ear, responding to Zyeu-Bleu">
+    <div class="texte-scene">
+      Je parle<br>juste un peu…
+    </div>
+  </div>
+
+  <div class="carte">
+    <div class="carte-fr">— Je parle juste un peu…</div>
+
+    <p class="hint">Hover over a word to reveal its meaning — or tap it on mobile.</p>
+
+    <div class="tuiles">
+      <div class="tuile">
+        <div class="tuile-face">Je</div>
+        <div class="tuile-dos">I</div>
+      </div>
+      <div class="tuile">
+        <div class="tuile-face">parle</div>
+        <div class="tuile-dos">speak / am speaking</div>
+      </div>
+      <div class="tuile">
+        <div class="tuile-face">juste</div>
+        <div class="tuile-dos">just / only</div>
+      </div>
+      <div class="tuile">
+        <div class="tuile-face">un peu</div>
+        <div class="tuile-dos">a little / a bit</div>
+      </div>
+    </div>
+
+    <div class="carte-note">
+      <strong>Juste un peu…</strong> — Nagar isn't being modest out of politeness. She genuinely only knows a few words. The ellipsis (…) matters here: she trails off, a little embarrassed, a little proud. It's a very natural way to say "I'm not fluent, but I'm trying."
+    </div>
+
+    <div class="conjugaison">
+      <div class="conj-titre">How French -er verbs work (present tense)</div>
+      <div class="conj-table">
+        <div class="conj-ligne">
+          <span class="conj-pronom">je</span>
+          <span class="conj-terminaison">+ -e</span>
+          <span class="conj-forme">je parl<strong>e</strong></span>
+        </div>
+        <div class="conj-ligne">
+          <span class="conj-pronom">tu</span>
+          <span class="conj-terminaison">+ -es</span>
+          <span class="conj-forme">tu parl<strong>es</strong></span>
+        </div>
+      </div>
+      <div class="conj-note">
+        All regular <em>-er</em> verbs follow this exact pattern — and there are thousands of them. <em>Parler</em> (to speak), <em>chanter</em> (to sing), <em>marcher</em> (to walk), <em>aimer</em> (to love)… same endings, every time.<br><br>
+        <strong>Pronunciation tip:</strong> the final <em>-e</em> and <em>-es</em> are both silent. This means the verb alone — <em>parle</em> and <em>parles</em>, without the pronoun — sounds completely identical. There is no audible difference whatsoever between the two conjugated forms. The only way to tell them apart is the subject pronoun (<em>je</em> or <em>tu</em>). This is exactly why subject pronouns are never optional in French: drop <em>je</em> or <em>tu</em>, and the sentence becomes ambiguous — or simply meaningless.
+      </div>
+    </div>
+  </div>
+
+  <div class="nav">
+    <a class="btn-precedent" href="en_lecon_001_p05.html">← Back</a>
+    <a class="btn-suivant" href="en_lecon_001_p07.html">Next →</a>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.tuile').forEach(function(tuile) {
+    tuile.addEventListener('click', function(e) {
+      var wasOpen = tuile.classList.contains('ouvert');
+      document.querySelectorAll('.tuile').forEach(function(t) { t.classList.remove('ouvert'); });
+      if (!wasOpen) tuile.classList.add('ouvert');
+    });
+  });
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.tuile')) {
+      document.querySelectorAll('.tuile').forEach(function(t) { t.classList.remove('ouvert'); });
+    }
+  });
+</script>
+</body>
+</html>
