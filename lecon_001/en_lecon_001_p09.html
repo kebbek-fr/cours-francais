@@ -321,12 +321,17 @@
 
         setTimeout(function () {
           texteSalut.classList.add('visible');
-          carte.classList.add('visible');
-          input.focus();
-          demarrerMinuteur();
-        }, 400);
 
-      }, 1000);
+          // Laisse le temps de lire "Salut, toi !" avant que la case
+          // (et le focus du champ) ne fasse défiler la page.
+          setTimeout(function () {
+            carte.classList.add('visible');
+            input.focus();
+            demarrerMinuteur();
+          }, 3000);
+
+        }, 400);
+      }, 2000); // image "vide" tenue plus longtemps — simule un changement de personnages
     }, 1000);
   }, 2000);
 
