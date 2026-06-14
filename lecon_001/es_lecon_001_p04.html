@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lección 1 — Le français avec Keb & Bek</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Patrick+Hand&family=Nunito:ital,wght@0,400;0,600;0,700;0,800;1,400i&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --beige:       #F2EDE3;
+      --beige-clair: #FDF8F2;
+      --bleu-poudre: #B8C9E0;
+      --bleu-fonce:  #7A9BBF;
+      --vert:        #7FA86E;
+      --vert-clair:  #EAF3DE;
+      --vert-fonce:  #4A7A36;
+      --texte:       #2A2422;
+      --gris:        #8A8480;
+      --blanc:       #ffffff;
+      --ombre:       rgba(42, 36, 34, 0.10);
+    }
+
+    html, body {
+      min-height: 100vh;
+      background: var(--beige);
+      font-family: "Nunito", sans-serif;
+      color: var(--texte);
+    }
+
+    .page {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 24px 56px;
+    }
+
+    .scene {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px var(--ombre);
+      background: #F2EDE3;
+    }
+
+    .scene img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .texte-scene {
+      position: absolute;
+      top: 22%;
+      left: 48%;
+      transform: translateX(-50%);
+      width: 32%;
+      font-family: "Pacifico", cursive;
+      font-size: clamp(14px, 2vw, 26px);
+      line-height: 1.6;
+      color: var(--vert-fonce);
+      text-align: center;
+      opacity: 0;
+      animation: apparaitre-texte 1s ease 0.6s forwards;
+    }
+
+    @keyframes apparaitre-texte {
+      from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+      to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+    }
+
+    .carte {
+      margin-top: 28px;
+      width: 100%;
+      max-width: 1000px;
+      background: var(--beige-clair);
+      border: 1.5px solid rgba(184,201,224,0.4);
+      border-radius: 20px;
+      padding: clamp(20px, 3vw, 36px) clamp(24px, 4vw, 44px);
+      box-shadow: 0 4px 24px var(--ombre);
+    }
+
+    .carte-fr {
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(20px, 2.6vw, 28px);
+      color: var(--vert-fonce);
+      margin-bottom: 18px;
+    }
+
+    .tuiles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .tuile {
+      position: relative;
+      min-width: 120px;
+      cursor: pointer;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px var(--ombre);
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .tuile-face,
+    .tuile-dos {
+      padding: 14px 20px;
+      text-align: center;
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .tuile-face {
+      background: var(--vert-clair);
+      border: 1.5px solid rgba(127,168,110,0.35);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--vert-fonce);
+      position: relative;
+      z-index: 1;
+    }
+
+    .tuile-dos {
+      position: absolute;
+      inset: 0;
+      background: var(--vert-fonce);
+      font-family: "Nunito", sans-serif;
+      font-size: clamp(13px, 1.5vw, 15px);
+      font-weight: 600;
+      color: var(--blanc);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(6px);
+      z-index: 2;
+    }
+
+    @media (hover: hover) {
+      .tuile:hover .tuile-dos {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .tuile:hover .tuile-face {
+        opacity: 0;
+      }
+    }
+
+    .tuile.ouvert .tuile-dos {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .tuile.ouvert .tuile-face {
+      opacity: 0;
+    }
+
+    .carte-note {
+      font-size: clamp(14px, 1.6vw, 16px);
+      line-height: 1.7;
+      color: var(--texte);
+      margin-bottom: 14px;
+    }
+
+    .carte-note strong {
+      color: var(--vert-fonce);
+    }
+
+    .carte-trans {
+      margin-top: 10px;
+      font-size: clamp(13px, 1.4vw, 15px);
+      color: var(--gris);
+      font-style: italic;
+    }
+
+    .nav {
+      margin-top: 32px;
+      display: flex;
+      gap: 16px;
+    }
+
+    .btn-suivant {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--vert-fonce);
+      color: var(--blanc);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 4px 20px rgba(74,122,54,0.30);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease;
+    }
+    .btn-suivant:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 10px 32px rgba(74,122,54,0.38);
+    }
+
+    .btn-precedent {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 14px 32px;
+      background: var(--beige-clair);
+      color: var(--texte);
+      border: 1.5px solid rgba(184,201,224,0.5);
+      font-family: "Patrick Hand", cursive;
+      font-size: clamp(16px, 2vw, 19px);
+      border-radius: 100px;
+      text-decoration: none;
+      box-shadow: 0 2px 8px var(--ombre);
+      transition: transform 0.22s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.2s ease, border-color 0.18s;
+    }
+    .btn-precedent:hover {
+      border-color: var(--bleu-fonce);
+      transform: translateY(-3px) scale(1.04);
+    }
+
+    .lecon-haut {
+      width: 100%;
+      max-width: 1000px;
+      margin-bottom: 14px;
+      opacity: 0;
+      animation: apparaitre 0.5s ease 0.1s forwards;
+    }
+
+    @keyframes apparaitre {
+      from { opacity: 0; transform: translateY(14px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .lien-menu {
+      font-size: 12px;
+      color: #bbb;
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .lien-menu:hover { color: var(--gris); }
+
+    .hint {
+      font-size: 11px;
+      color: var(--gris);
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+
+  <div class="lecon-haut">
+    <a class="lien-menu" href="../menus/es.html">← Selección de lecciones</a>
+  </div>
+
+  <div class="scene">
+    <img src="../images/lecon_001_ca_va_merci.png" alt="Zyeu-Bleu tiende la mano y responde a Nagar">
+    <div class="texte-scene">
+      Oui, ça va.<br>Merci !
+    </div>
+  </div>
+
+  <div class="carte">
+    <div class="carte-fr">— Oui, ça va. Merci !</div>
+
+    <p class="hint">Pasa el cursor por encima para ver la traducción — o toca la tuile en móvil.</p>
+
+    <div class="tuiles">
+      <div class="tuile">
+        <div class="tuile-face">Oui</div>
+        <div class="tuile-dos">Sí</div>
+      </div>
+      <div class="tuile">
+        <div class="tuile-face">Ça va.</div>
+        <div class="tuile-dos">Estoy bien. / Todo bien.</div>
+      </div>
+      <div class="tuile">
+        <div class="tuile-face">Merci !</div>
+        <div class="tuile-dos">¡Gracias!</div>
+      </div>
+    </div>
+
+    <div class="carte-note">
+      <strong>Oui</strong> es el «sí» del francés — corto, directo, válido en cualquier situación. Su opuesto, <em>non</em> («no»), funciona exactamente igual. Dos palabras que ya sabes pronunciar casi a la perfección, porque el español tiene los mismos sonidos.
+    </div>
+
+    <div class="carte-note" style="margin-top: 14px;">
+      Fíjate bien en <strong>Ça va.</strong> — son exactamente las mismas palabras que <em>Ça va ?</em> de la página anterior. Zyeu-Bleu no aprendió nada nuevo: simplemente devolvió las mismas palabras con otra entonación. En francés, la pregunta y la respuesta son idénticas. Es como si en español alguien te preguntara «¿Va bien?» y tú respondieras «Va bien» — sin cambiar nada más que el tono.
+    </div>
+
+    <div class="carte-trans" style="margin-top: 14px;">
+      Y sobre <em>Merci</em> — tiene exactamente la misma raíz latina que <em>merced</em> en español, y que <em>mercy</em> en inglés. En francés antiguo significaba «gracia» o «favor». Hoy es simplemente «gracias» — pero es bonito saber de dónde viene.
+    </div>
+  </div>
+
+  <div class="nav">
+    <a class="btn-precedent" href="es_lecon_001_p03.html">← Atrás</a>
+    <a class="btn-suivant" href="es_lecon_001_p05.html">Siguiente →</a>
+  </div>
+
+</div>
+
+<script>
+  document.querySelectorAll('.tuile').forEach(function(tuile) {
+    tuile.addEventListener('click', function(e) {
+      var wasOpen = tuile.classList.contains('ouvert');
+      document.querySelectorAll('.tuile').forEach(function(t) {
+        t.classList.remove('ouvert');
+      });
+      if (!wasOpen) tuile.classList.add('ouvert');
+    });
+  });
+
+  document.addEventListener('click', function(e) {
+    if (!e.target.closest('.tuile')) {
+      document.querySelectorAll('.tuile').forEach(function(t) {
+        t.classList.remove('ouvert');
+      });
+    }
+  });
+</script>
+</body>
+</html>
