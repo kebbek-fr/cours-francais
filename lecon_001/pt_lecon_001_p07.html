@@ -199,6 +199,58 @@
       line-height: 1.65;
     }
 
+    /* Tuile avec note longue — popover */
+    .tuile-nom { overflow: visible; }
+    .tuile-nom .tuile-face {
+      background: #FDF3EC;
+      border-color: rgba(181,99,58,0.45);
+      color: var(--terra);
+      transition: background 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .popover {
+      position: absolute;
+      top: calc(100% + 12px);
+      left: 0;
+      min-width: 220px;
+      max-width: 260px;
+      background: var(--terra-fond);
+      border: 1.5px solid rgba(181,99,58,0.35);
+      border-radius: 14px;
+      padding: 12px 16px;
+      font-family: "Nunito", sans-serif;
+      font-size: clamp(13px, 1.4vw, 15px);
+      font-weight: 600;
+      line-height: 1.55;
+      color: var(--texte);
+      text-align: left;
+      box-shadow: 0 6px 22px var(--ombre);
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(6px);
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 10;
+    }
+
+    .popover::before {
+      content: '';
+      position: absolute;
+      top: -7px; left: 24px;
+      width: 14px; height: 14px;
+      background: var(--terra-fond);
+      border-left: 1.5px solid rgba(181,99,58,0.35);
+      border-top: 1.5px solid rgba(181,99,58,0.35);
+      transform: rotate(45deg);
+    }
+
+    @media (hover: hover) {
+      .tuile-nom:hover .tuile-face { background: #F5E3D8; box-shadow: 0 2px 12px rgba(181,99,58,0.30); }
+      .tuile-nom:hover .popover { opacity: 1; visibility: visible; transform: translateY(0); }
+    }
+
+    .tuile-nom.ouvert .tuile-face { background: #F5E3D8; box-shadow: 0 2px 12px rgba(181,99,58,0.30); }
+    .tuile-nom.ouvert .popover { opacity: 1; visibility: visible; transform: translateY(0); }
+
     .carte-note {
       font-size: clamp(14px, 1.6vw, 16px);
       line-height: 1.7;
@@ -267,9 +319,9 @@
     <p class="hint">Passe o cursor para ver a tradução — ou toque no celular.</p>
 
     <div class="tuiles">
-      <div class="tuile">
+      <div class="tuile tuile-nom">
         <div class="tuile-face">Le dîner</div>
-        <div class="tuile-dos">o jantar</div>
+        <div class="popover">o almoço (no Quebec) / o jantar (na França)</div>
       </div>
       <div class="tuile">
         <div class="tuile-face">est</div>
@@ -282,7 +334,8 @@
     </div>
 
     <div class="carte-note">
-      <strong>Uma voz diferente.</strong> Não é mais a Nagar nem o Zyeu-Bleu — é a Ginette, mãe da Bek, chamando de fora de cena. A brincadeira para por um segundo. Repare nos dois acentos: o circunflexo de <em>prêt</em> realmente muda o som da vogal — é um "é" aberto. Já o de <em>dîner</em> não muda nada na pronúncia — é puramente decorativo, um pequeno chapeuzinho herdado da história. Aliás, desde uma reforma ortográfica de 1990, esse î é opcional: às vezes você verá "diner" escrito sem ele. A Bek prefere manter mesmo assim — ela acha que fica mais bonito.
+      <strong>Uma voz diferente.</strong> Não é mais a Nagar nem o Zyeu-Bleu — é a Ginette, mãe da Bek, chamando de fora de cena. A brincadeira para por um segundo. Repare nos dois acentos: o circunflexo de <em>prêt</em> realmente muda o som da vogal — é um "é" aberto. Já o de <em>dîner</em> não muda nada na pronúncia — é puramente decorativo, um pequeno chapeuzinho herdado da história. Aliás, desde uma reforma ortográfica de 1990, esse î é opcional: às vezes você verá "diner" escrito sem ele. A Bek prefere manter mesmo assim — ela acha que fica mais bonito.<br><br>
+      Uma coisa vale saber: Bek e Keb moram no Quebec, e no francês québécois, <em>le dîner</em> é o almoço — a refeição do meio-dia. O que os franceses da França chamam de <em>le dîner</em> (a refeição da noite), os québécois chamam de <em>le souper</em>. Então a Ginette está chamando para o almoço, não para o jantar. A mesma palavra, mas num horário completamente diferente.
     </div>
 
     <div class="conjugaison">
